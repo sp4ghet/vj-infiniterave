@@ -1,0 +1,166 @@
+﻿#pragma kernel ForceCS
+#pragma kernel IntegrateCS 
+
+struct BoidData{
+    float3 velocity;
+    float3 position;
+};
+
+#define SIMULATION_BLOCK_SIZE 256
+
+StructuredBuffer<BoidData> _BoidDataBufferRead;
+RWStructuredBuffer<BoidData> _BoidDataBufferWrite;
+StructuredBuffer<float3> _BoidForceBufferRead;
+RWStructuredBuffer<float3> _BoidForceBufferWrite;
+
+uint _MaxBoidObjectNum;
+
+float _DeltaTime;
+float _MaxSpeed;
+float _MaxSteerForce;
+float3 _WallCenter;
+float3 _WallSize;
+float _AvoidWallWeight;
+
+float _SeparateNeighborhoodRadius;
+float _AlignmentNeighborhoodRadius;
+float _CohesionNeighborhoodRadius;
+float _SeparationWeight;
+float _AlignmentWeight;
+float _CohesionWeight;
+
+groupshared BoidData boid_data[SIMULATION_BLOCK_SIZE];
+
+
+float3 clampx(float3 vec, float max){
+    float len = length(vec);
+    return (len > max) ? vec * (max / len) : vec;
+}
+
+// assume rectangular prisim bounds
+float3 avoidBounds(float3 position){
+
+    float3 wallCenter = _WallCenter.xyz;
+    float3 wallSize = _WallSize.xyz;
+    float3 acceleration = float3(0,0,0);
+
+    if (position.x > (wallCenter.x + wallSize.x * .5)){
+        acceleration.x = -_AvoidWallWeight;    
+    }
+    if (position.x < (wallCenter.x - wallSize.x * .5)){
+        acceleration.x = _AvoidWallWeight;
+    }
+
+    if (position.y > (wallCenter.y + wallSize.y * .5)){
+        acceleration.y = -_AvoidWallWeight;    
+    }
+    if (position.y < (wallCenter.y - wallSize.y * .5)){
+        acceleration.y = _AvoidWallWeight;
+    }
+
+    if (position.z > (wallCenter.z + wallSize.z * .5)){
+        acceleration.z = -_AvoidWallWeight;    
+    }
+    if (position.z < (wallCenter.z - wallSize.z * .5)){
+        acceleration.z = _AvoidWallWeight;
+    }
+
+    return acceleration;
+}
+
+float rand(float2 co){
+    return frac(sin(dot(co.xy , float2(12.9898,78.233))) * 43758.5453);
+}
+
+[numthreads(SIMULATION_BLOCK_SIZE,1,1)]
+void ForceCS (
+    uint3 id : SV_DispatchThreadID,
+    uint3 Gid : SV_GroupID, 
+    uint3 GTid : SV_GroupThreadID, // vec3 of thread ID within group
+    uint GI : SV_GroupIndex // flattened group ID
+)
+{
+    float3 force = float3(0,0,0);
+    BoidData boid = _BoidDataBufferRead[id.x];
+    
+    float3 cohesionForce = float3(0,0,0);
+    float3 separationForce = float3(0,0,0);
+    float3 alignmentForce = float3(0,0,0);
+    float3 searchForce = float3(0,0,0);
+
+    int cohesionCount = 0;
+    int separationCount = 0;
+    int alignmentCount = 0;
+
+    [loop]
+    for(uint n_group = 0; n_group < (uint)_MaxBoidObjectNum; n_group += SIMULATION_BLOCK_SIZE){
+        boid_data[GI] = _BoidDataBufferRead[n_group + GI];
+
+        // Block until all other threads in group reach this line.
+        GroupMemoryBarrierWithGroupSync();
+        for(int n_fish = 0; n_fish < SIMULATION_BLOCK_SIZE; n_fish++){
+            BoidData other_boid = boid_data[n_fish];
+            float distance = length(boid.position - other_boid.position);
+
+            if(distance != 0.0 && distance <= _SeparateNeighborhoodRadius){
+                separationForce += normalize(boid.position - other_boid.position) / distance;
+                separationCount++;   
+            }
+            if(distance <= _AlignmentNeighborhoodRadius){
+                alignmentForce += other_boid.velocity;
+                alignmentCount++;
+            }
+            if(distance <= _CohesionNeighborhoodRadius){
+                cohesionForce += other_boid.position;
+                cohesionCount++;
+            }
+        }
+        GroupMemoryBarrierWithGroupSync();
+    }
+
+    if(cohesionCount > 0){
+        cohesionForce /= cohesionCount;
+        cohesionForce = normalize(cohesionForce - boid.position) * _MaxSpeed;
+        cohesionForce = cohesionForce - boid.velocity;
+        cohesionForce = clampx(cohesionForce, _MaxSteerForce);
+    }
+    if(separationCount > 0){
+        separationForce /= separationCount;
+        separationForce = normalize(separationForce) * _MaxSpeed;
+        separationForce = separationForce - boid.velocity;
+        separationForce = clampx(separationForce, _MaxSteerForce);
+    }
+    if(alignmentCount > 0){
+        alignmentForce /= alignmentCount;
+        alignmentForce = normalize(alignmentForce) * _MaxSpeed;
+        alignmentForce = alignmentForce - boid.velocity;
+        alignmentForce = clampx(alignmentForce, _MaxSteerForce);
+    }
+
+    if(cohesionCount == separationCount == alignmentCount == 0){
+        // create brownian search
+        force.x += rand(boid.position.yz) + -.5 * step(0.5, rand(boid.velocity.yz));
+        force.y += rand(boid.position.xz) + -.5 * step(0.5, rand(boid.velocity.xz));
+        force.z += rand(boid.position.xy) + -.5 * step(0.5, rand(boid.velocity.xy));
+    }
+
+    force += cohesionForce * _CohesionWeight;
+    force += separationForce * _SeparationWeight;
+    force += alignmentForce * _AlignmentWeight;
+
+    _BoidForceBufferWrite[id.x] = force;
+}
+
+[numthreads(SIMULATION_BLOCK_SIZE,1,1)]
+void IntegrateCS(uint3 id : SV_DispatchThreadID){
+    BoidData boid = _BoidDataBufferWrite[id.x];
+    float3 force = _BoidForceBufferRead[id.x];
+    
+    force += avoidBounds(boid.position);
+
+    boid.velocity += force * _DeltaTime;
+    boid.velocity = clampx(boid.velocity, _MaxSpeed);    
+    boid.position += boid.velocity * _DeltaTime;
+
+    _BoidDataBufferWrite[id.x] = boid;
+}

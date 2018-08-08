@@ -1,0 +1,3 @@
+[submodule "klak"]
+	path = Packages/klak
+	url = https://github.com/keijiro/klak
