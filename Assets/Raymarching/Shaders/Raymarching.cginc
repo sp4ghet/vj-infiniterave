@@ -12,8 +12,6 @@ float3 GetCameraRight()       { return UNITY_MATRIX_V[0].xyz;     }
 float  GetCameraFocalLength() { return abs(UNITY_MATRIX_P[1][1]); }
 float  GetCameraMaxDistance() { return _ProjectionParams.z - _ProjectionParams.y; }
 
-float4 _Scale;
-
 inline float3 ToLocal(float3 pos)
 {
     return mul(unity_WorldToObject, float4(pos, 1.0)).xyz * _Scale;

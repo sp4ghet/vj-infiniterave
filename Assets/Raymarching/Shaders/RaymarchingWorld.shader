@@ -35,6 +35,8 @@ Pass
 
     #define PI 3.14159265358979
 
+    float4 _Scale;
+
     float DistanceFunction(float3 pos)
     {
         float r = abs(sin(2 * PI * _Time.y / 2.0));

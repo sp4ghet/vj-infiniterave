@@ -1,6 +1,10 @@
 ﻿Shader "Raymarching/Object"
 {
 
+Properties{
+    _Hit ("Shape", Range(0,1)) = 0.0
+}
+
 SubShader
 {
 
@@ -15,17 +19,20 @@ CGINCLUDE
 
 #define PI 3.14159265358979
 
+float4 _Scale;
+float _Hit;
+
 float DistanceFunction(float3 pos)
 {
-	float t = _Time.x;
+	float t = _Hit;
 	float a = 6 * PI * t;
 	float s = pow(sin(a), 2.0);
-	float d1 = sphere(pos, 2);
+	float d1 = sphere(pos, _Scale/2.0);
 	float d2 = roundBox(
 		repeat(pos, 0.5),
 		0.1 - 0.1 * s,
 		0.1 / length(pos * 2.0));
-	return lerp(d1, d2, s);
+	return lerp(d1, d2, t);
 }
 
 #include "Raymarching.cginc"
