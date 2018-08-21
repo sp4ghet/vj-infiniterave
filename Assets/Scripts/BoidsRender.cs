@@ -24,7 +24,7 @@ public class BoidsRender : MonoBehaviour {
 	public Vector3 ObjectScale { get { return m_objectScale; } }
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
 		argsBuffer = new ComputeBuffer(1, args.Length * sizeof(uint), 
 			ComputeBufferType.IndirectArguments);
 	}

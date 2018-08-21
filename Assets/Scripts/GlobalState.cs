@@ -4,36 +4,50 @@ using UnityEngine;
 
 public class GlobalState : MonoBehaviour {
 
-	static GlobalState _instance;
-	
-	public static GlobalState Instance { get {return _instance;} }
+    static GlobalState _instance;
 
-	public Renderer _raymarch;
+    [SerializeField]
+    float _bpm;
 
-	string raymarchLerpName = "_Hit";
+    [SerializeField]
+    Color baseColor;
 
-	public float RayMarchLerp {
-		get {
-			return _raymarch.material.GetFloat(raymarchLerpName);
-		}
+    public static GlobalState Instance { get {return _instance;} }
 
-		set {
-			_raymarch.material.SetFloat(raymarchLerpName, value);
-		}
-	}
+    float _raymarchLerpValue = 0;
 
-	private void OnEnable() {
-		if (GlobalState.Instance == null) {
-			GlobalState._instance = this;
-		}
-	}
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public float RayMarchLerp {
+        get {
+            return _raymarchLerpValue;
+        }
+
+        set {
+            _raymarchLerpValue = value;
+        }
+    }
+
+    public float Bpm {
+        get {
+            return _bpm;
+        }
+
+        set {
+            _bpm = value;
+        }
+    }
+
+    private void OnEnable() {
+        if (GlobalState.Instance == null) {
+            GlobalState._instance = this;
+        }
+    }
+    // Use this for initialization
+    void Start () {
+        
+    }
+    
+    // Update is called once per frame
+    void Update () {
+        
+    }
 }

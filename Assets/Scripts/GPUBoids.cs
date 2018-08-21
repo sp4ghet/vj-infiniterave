@@ -34,6 +34,9 @@ public class GPUBoids : MonoBehaviour {
 		get {
 			return maxObjectNum;
 		}
+		set {
+			maxObjectNum = value;
+		}
 	}
 
 	[SerializeField]

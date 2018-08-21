@@ -19,6 +19,7 @@ MonoBehaviour:
   - {fileID: 114406355865889922}
   - {fileID: 114046483576016646}
   - {fileID: 114371620470621272}
+  - {fileID: 114568510233724684}
 --- !u!114 &114011234868564788
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -30,13 +31,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   focusDistance:
     overrideState: 1
-    value: 5
+    value: 10
   aperture:
     overrideState: 1
     value: 10.8
@@ -57,13 +58,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746f408d6f1e994fa5e88f4f770670f, type: 3}
   m_Name: Recolor
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
   edgeColor:
-    overrideState: 0
-    value: {r: 0, g: 0, b: 0, a: 0}
+    overrideState: 1
+    value: {r: 0.97199535, g: 0, b: 1, a: 0}
   edgeSource:
     overrideState: 0
     value: 1
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94488653724e0384d94b7a5e7bc68a14, type: 3}
   m_Name: Isoline
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -1552,6 +1553,24 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &114568510233724684
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea711ead749df94459572dcb3944b834, type: 3}
+  m_Name: PixelSort
+  m_EditorClassIdentifier: 
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  blend:
+    overrideState: 1
+    value: 0
 --- !u!114 &114692599045402242
 MonoBehaviour:
   m_ObjectHideFlags: 3
