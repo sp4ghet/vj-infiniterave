@@ -7,8 +7,11 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: 
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/uDesktopDuplication/Test.unity
     guid: 7af2b0a622074754fa403e89733750ef
+  - enabled: 1
+    path: Assets/main.unity
+    guid: 41cf5623ba1b90840b443410c0652205
   m_configObjects: {}

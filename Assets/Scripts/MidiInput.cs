@@ -13,10 +13,16 @@ public class MidiInput : MonoBehaviour {
 		,isolineToggle = 46
 		,skyboxToggle = 47
 		,bpmTap = 51
+        ,toggleCameraMove = 50
+        ,toggleRadialMesh = 36
+        ,toggleTwist = 37
+        ,toggleRandomSubdivisions = 38
 	}
 
 	enum MidiKnobs : int {
 		fishKnob = 72
+        ,warpKnob = 17
+        ,subdivisionsKnob = 79
 	}
 
 	void NoteOn(MidiChannel channel, int note, float velocity) {
@@ -37,6 +43,18 @@ public class MidiInput : MonoBehaviour {
 		case MidiNotes.bpmTap:
 			sceneController.SetBpm();
 			break;
+        case MidiNotes.toggleCameraMove:
+            sceneController.ToggleCameraMove();
+            break;
+        case MidiNotes.toggleRadialMesh:
+            sceneController.ToggleRadialMesh();
+            break;
+        case MidiNotes.toggleTwist:
+            sceneController.ToggleTwist();
+            break;
+        case MidiNotes.toggleRandomSubdivisions:
+            sceneController.ToggleRandomSubdivisions();
+            break;
 		}
 	}
 
@@ -55,7 +73,13 @@ public class MidiInput : MonoBehaviour {
 		case MidiKnobs.fishKnob:
 			sceneController.FishCount(knobValue);
 			break;
-		}
+        case MidiKnobs.warpKnob:
+            sceneController.SetWarp(knobValue);
+            break;
+        case MidiKnobs.subdivisionsKnob:
+            sceneController.SetSubdivisions(knobValue);
+            break;
+        }
 	}
 
 	void OnEnable() {

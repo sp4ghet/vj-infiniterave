@@ -9,23 +9,55 @@ public class GlobalState : MonoBehaviour {
     [SerializeField]
     float _bpm;
 
-    [SerializeField]
+    [SerializeField, ColorUsage(false, true)]
     Color baseColor;
 
-    public static GlobalState Instance { get {return _instance;} }
+    [SerializeField]
+    bool isolineActive = true;
 
-    float _raymarchLerpValue = 0;
+    [SerializeField]
+    bool enableSkybox;
+
+    [SerializeField]
+    bool smoothFollow;
+
+    [SerializeField]
+    float raymarchLerpValue = 0;
+
+    [SerializeField]
+    float warp;
+
+    [SerializeField]
+    uint fishCount;
+
+    [SerializeField]
+    bool vedaEnabled;
+
+    [SerializeField]
+    bool twistEnabled;
+
+    [SerializeField]
+    int subdivisions;
+
+    [SerializeField]
+    RadialMesh.RadialState mode;
+
+    [SerializeField]
+    bool subdivisionsRandom;
+
+    public static GlobalState I { get {return _instance;} }
+
+    #region PublicProperties
 
     public float RayMarchLerp {
         get {
-            return _raymarchLerpValue;
+            return raymarchLerpValue;
         }
 
         set {
-            _raymarchLerpValue = value;
+            raymarchLerpValue = value;
         }
     }
-
     public float Bpm {
         get {
             return _bpm;
@@ -35,9 +67,115 @@ public class GlobalState : MonoBehaviour {
             _bpm = value;
         }
     }
+    public Color BaseColor {
+        get {
+            return baseColor;
+        }
+
+        set {
+            baseColor = value;
+        }
+    }
+    public bool IsolineActive {
+        get {
+            return isolineActive;
+        }
+
+        set {
+            isolineActive = value;
+        }
+    }
+    public bool EnableSkybox {
+        get {
+            return enableSkybox;
+        }
+
+        set {
+            enableSkybox = value;
+        }
+    }
+    public bool SmoothFollow {
+        get {
+            return smoothFollow;
+        }
+
+        set {
+            smoothFollow = value;
+        }
+    }
+    public float Warp {
+        get {
+            return warp;
+        }
+
+        set {
+            warp = value;
+        }
+    }
+    public uint FishCount {
+        get {
+            return fishCount;
+        }
+
+        set {
+            fishCount = value;
+        }
+    }
+
+    public RadialMesh.RadialState RadialMeshMode {
+        get {
+            return mode;
+        }
+
+        set {
+            mode = value;
+        }
+    }
+    public bool TwistEnabled {
+        get {
+            return twistEnabled;
+        }
+
+        set {
+            twistEnabled = value;
+        }
+    }
+    public int Subdivisions {
+        get {
+            return subdivisions;
+        }
+
+        set {
+            if(value < 3) {
+                subdivisions = 3;
+            }
+            subdivisions = value;
+        }
+    }
+    public bool SubdivisionsRandom {
+        get {
+            return subdivisionsRandom;
+        }
+
+        set {
+            subdivisionsRandom = value;
+        }
+    }
+
+    public bool VedaEnabled {
+        get {
+            return vedaEnabled;
+        }
+
+        set {
+            vedaEnabled = value;
+        }
+    }
+    
+    #endregion
 
     private void OnEnable() {
-        if (GlobalState.Instance == null) {
+        if (GlobalState.I == null) {
             GlobalState._instance = this;
         }
     }

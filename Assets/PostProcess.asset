@@ -1564,7 +1564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea711ead749df94459572dcb3944b834, type: 3}
   m_Name: PixelSort
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1

@@ -4,97 +4,125 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using Klak.Motion;
 using Kino.PostProcessing;
+using System;
 
 public class SceneController : MonoBehaviour {
 
-	[SerializeField] GameObject rayMarchingObject;
-	[SerializeField] GPUBoids fish;
-	[SerializeField] SmoothFollow mainCamera;
-	[SerializeField] PostProcessVolume ppVolume;
-	[SerializeField] Camera sceneCamera;
-	[SerializeField] bool enableSkybox = true;
-	[SerializeField] GameObject water;
+    [SerializeField] GameObject rayMarchingObject;
+    [SerializeField] GPUBoids fish;
+    [SerializeField] SmoothFollow smoothFollow;
+    [SerializeField] PostProcessVolume ppVolume;
+    [SerializeField] Camera sceneCamera;
+    [SerializeField] GameObject water;
+    [SerializeField] RadialMeshGenerator radialGenerator;
 
-	PostProcessProfile profile;
-	Isoline isoline = null;
-	bool isolineActive = true;
+    PostProcessProfile profile;
+    Isoline isoline = null;
+    Warp warp = null;
 
-	float raymarchElapsed;
+    float raymarchElapsed;
 
-	uint maxFish = 8192 - 256;
-	bool fishActive = true;
-	GameObject fishObj;
+    uint maxFish = 8192 - 256;
+    bool fishActive = true;
+    GameObject fishObj;
 
-	float lastBpm = 0;
+    float lastBpm = 0;
 
+    public void EaseRaymarchObject(float power) {
+        StartCoroutine(easeVelocity(GlobalState.I.RayMarchLerp, power, 0.1f));
+    }
 
+    IEnumerator easeVelocity(float from, float to, float duration) {
+        raymarchElapsed = 0;
+        do {
+            raymarchElapsed += Time.deltaTime;
+            GlobalState.I.RayMarchLerp = Mathf.Lerp(from, to, raymarchElapsed / duration);
+            yield return new WaitForEndOfFrame();
+        } while (raymarchElapsed <= duration);
+    }
 
-	public void EaseRaymarchObject(float power) {
-		StartCoroutine(easeVelocity(GlobalState.Instance.RayMarchLerp, power, 0.1f));
-	}
+    public void ToggleRadialMesh() {
+        GlobalState.I.RadialMeshMode = GlobalState.I.RadialMeshMode.Next();
+    }
 
-	IEnumerator easeVelocity(float from, float to, float duration) {
-		raymarchElapsed = 0;
-		do {
-			raymarchElapsed += Time.deltaTime;
-			GlobalState.Instance.RayMarchLerp = Mathf.Lerp(from, to, raymarchElapsed / duration);
-			yield return new WaitForEndOfFrame();
-		} while (raymarchElapsed <= duration);
-	}
+    public void FishCount(float rate) {
+        fishActive = rate > float.Epsilon;
+        fishObj.SetActive(fishActive);
+        if (fishActive) {
+            fish.MaxObjectNum = (uint)(maxFish * rate) + 256;
+            GlobalState.I.FishCount = (uint)(maxFish * rate) + 256;
+        }
+    }
 
-	public void FishCount(float rate) {
-		fishActive = rate > float.Epsilon;
-		fishObj.SetActive(fishActive);
-		if (fishActive) {
-			fish.MaxObjectNum = (uint)(maxFish * rate) + 256;
-		}
-	}
+    public void ToggleRandomSubdivisions() {
+        GlobalState.I.SubdivisionsRandom = !GlobalState.I.SubdivisionsRandom;
+    }
 
-	public void JumpCamera() {
-		mainCamera.JumpRandomly();
-	}
+    public void ToggleTwist() {
+        GlobalState.I.TwistEnabled = !GlobalState.I.TwistEnabled;
+    }
 
-	public void ToggleIsoline() {
-		
-		isolineActive = !isolineActive;
-		isoline.active = isolineActive;
-	}
+    public void JumpCamera() {
+        smoothFollow.JumpRandomly();
+    }
 
-	public void ToggleSkyBox() {
-		enableSkybox = !enableSkybox;
-		if (enableSkybox) {
-			sceneCamera.clearFlags = CameraClearFlags.Skybox;
-			water.SetActive(true);
-		}
-		else {
-			sceneCamera.clearFlags = CameraClearFlags.SolidColor;
-			sceneCamera.backgroundColor = Color.black;
-			water.SetActive(false);
-		}
-	}
+    public void ToggleCameraMove() {
+        GlobalState.I.SmoothFollow = !GlobalState.I.SmoothFollow;
+        smoothFollow.enabled = GlobalState.I.SmoothFollow;
+        if (!smoothFollow.enabled) {
+            smoothFollow.transform.position = Vector3.zero;
+            smoothFollow.transform.rotation = Quaternion.identity;
+        }
+    }
 
-	public void SetBpm() {
-		float sinceLastBpm = Time.time - lastBpm;
-		if(sinceLastBpm > 2f) {
-			lastBpm = Time.time;
-			return;
-		}
+    public void SetSubdivisions(float knobValue) {
+        uint maxSubs = 50;
+        GlobalState.I.Subdivisions = (int)(maxSubs * knobValue) + 3;
+    }
 
-		GlobalState.Instance.Bpm = 60f / sinceLastBpm;
+    public void ToggleIsoline() {
+        GlobalState.I.IsolineActive = !GlobalState.I.IsolineActive;
+        isoline.active = GlobalState.I.IsolineActive;
+        isoline.lineColor.value = GlobalState.I.BaseColor;
+    }
 
-		lastBpm = Time.time;
-	}
+    public void SetWarp(float warpValue) {
+        warpValue = Mathf.Clamp01(warpValue);
+        GlobalState.I.Warp = warpValue;
+    }
 
-	// Use this for initialization
-	void Start () {
-		fishObj = fish.gameObject;
+    public void ToggleSkyBox() {
+        GlobalState.I.EnableSkybox = !GlobalState.I.EnableSkybox;
+        if (GlobalState.I.EnableSkybox) {
+            sceneCamera.clearFlags = CameraClearFlags.Skybox;
+        }
+        else {
+            sceneCamera.clearFlags = CameraClearFlags.SolidColor;
+            sceneCamera.backgroundColor = Color.black;
+        }
+        water.SetActive(GlobalState.I.EnableSkybox);
+    }
 
-		profile = ppVolume.profile;
-		profile.TryGetSettings(out isoline);
-		isolineActive = isoline.active;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
+    public void SetBpm() {
+        float sinceLastBpm = Time.time - lastBpm;
+        if (sinceLastBpm > 2f) {
+            lastBpm = Time.time;
+            return;
+        }
+
+        GlobalState.I.Bpm = 60f / sinceLastBpm;
+
+        lastBpm = Time.time;
+    }
+
+    // Use this for initialization
+    void Start() {
+        fishObj = fish.gameObject;
+
+        profile = ppVolume.profile;
+        profile.TryGetSettings(out isoline);
+        isoline.active = GlobalState.I.IsolineActive;
+        profile.TryGetSettings(out warp);
+        ToggleSkyBox();ToggleSkyBox();
+    }
 }

@@ -20,14 +20,14 @@ public class RaymarchingObject : MonoBehaviour
     
     void Update()
     {
-        lerp = GlobalState.Instance.RayMarchLerp;
-        float addSize = AudioReactive.Instance.RmsLow;
-        if (addSize > 25) {
-            transform.localScale = Vector3.one * 4f + Vector3.one * Mathf.Abs(addSize / 25);
-        }
-        else {
-            transform.localScale = Vector3.one * 4f;
-        }
+        lerp = GlobalState.I.RayMarchLerp;
+        //float addSize = AudioReactive.Instance.RmsLow;
+        //if (addSize > 25) {
+        //    transform.localScale = Vector3.one * 4f + Vector3.one * Mathf.Abs(addSize / 25);
+        //}
+        //else {
+            //transform.localScale = Vector3.one * 4f;
+        //}
         material_.SetVector(scaleId_, transform.localScale);
         material_.SetFloat(hitId_, lerp);
     }

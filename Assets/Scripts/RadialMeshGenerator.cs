@@ -9,12 +9,25 @@ public class RadialMeshGenerator : MonoBehaviour {
 
 	float recentPop = 0;
 
-	// Update is called once per frame
-	void Update () {
-		float bandPass = AudioReactive.Instance.PeakLow;
-		if(bandPass > 30 && recentPop > 60f/(1f*GlobalState.Instance.Bpm)) {
-			Instantiate(radialMesh, transform);
-			recentPop = 0;
+    // Update is called once per frame
+    void Update () {
+		float peak = AudioReactive.Instance.PeakLow;
+        int subdivisions = GlobalState.I.Subdivisions;
+
+		if(peak > 30 
+            && recentPop > 60f/(1f*GlobalState.I.Bpm) 
+            && GlobalState.I.RadialMeshMode != RadialMesh.RadialState.off
+        ) {
+            var radialMeshInstance = Instantiate(radialMesh, transform);
+            var mesh = radialMeshInstance.GetComponent<RadialMesh>();
+            if (GlobalState.I.SubdivisionsRandom) {
+                mesh.Subdivisions = Random.Range(3, subdivisions);
+            }
+            else {
+                mesh.Subdivisions = subdivisions;
+            }
+
+            recentPop = 0;
 		}
 		recentPop += Time.deltaTime;
 	}
