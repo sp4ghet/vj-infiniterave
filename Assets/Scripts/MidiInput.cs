@@ -17,6 +17,7 @@ public class MidiInput : MonoBehaviour {
         ,toggleRadialMesh = 36
         ,toggleTwist = 37
         ,toggleRandomSubdivisions = 38
+        ,toggleVeda = 39
 	}
 
 	enum MidiKnobs : int {
@@ -54,6 +55,9 @@ public class MidiInput : MonoBehaviour {
             break;
         case MidiNotes.toggleRandomSubdivisions:
             sceneController.ToggleRandomSubdivisions();
+            break;
+        case MidiNotes.toggleVeda:
+            sceneController.ToggleVeda();
             break;
 		}
 	}

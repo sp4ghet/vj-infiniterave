@@ -189,6 +189,7 @@ public class RadialMesh : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        float duration = Time.time - startTime;
         if (Time.time - startTime >= lifeTime
             || GlobalState.I.RadialMeshMode == RadialState.off) {
             Destroy(gameObject);
@@ -198,6 +199,16 @@ public class RadialMesh : MonoBehaviour {
             transform.localRotation *= Quaternion.Euler(0, 0, rotationSpeed * Time.deltaTime);
         }
 
-        transform.position -= Vector3.forward* speed*Time.deltaTime;
-	}
+        if (GlobalState.I.BendTunnel) {
+            const float angle = Mathf.PI / 3f;
+            const float phase = Mathf.PI / 2.4f;
+            float y = Mathf.Sin(angle * duration / (lifeTime) + phase) * 50f - 50f;
+            float z = Mathf.Cos(angle * duration / (lifeTime) + phase) * 50f - 10f;
+            transform.position = new Vector3(0, y, z);
+        }
+        else {
+            transform.position -= Vector3.forward * speed * Time.deltaTime;
+
+        }
+    }
 }

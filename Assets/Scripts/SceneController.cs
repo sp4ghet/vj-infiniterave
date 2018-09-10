@@ -15,6 +15,7 @@ public class SceneController : MonoBehaviour {
     [SerializeField] Camera sceneCamera;
     [SerializeField] GameObject water;
     [SerializeField] RadialMeshGenerator radialGenerator;
+    [SerializeField] GameObject veda;
 
     PostProcessProfile profile;
     Isoline isoline = null;
@@ -115,6 +116,11 @@ public class SceneController : MonoBehaviour {
         lastBpm = Time.time;
     }
 
+    public void ToggleVeda() {
+        GlobalState.I.VedaEnabled = !GlobalState.I.VedaEnabled;
+        veda.SetActive(GlobalState.I.VedaEnabled);
+    }
+
     // Use this for initialization
     void Start() {
         fishObj = fish.gameObject;
@@ -123,6 +129,8 @@ public class SceneController : MonoBehaviour {
         profile.TryGetSettings(out isoline);
         isoline.active = GlobalState.I.IsolineActive;
         profile.TryGetSettings(out warp);
+
         ToggleSkyBox();ToggleSkyBox();
+        veda.SetActive(GlobalState.I.VedaEnabled);
     }
 }

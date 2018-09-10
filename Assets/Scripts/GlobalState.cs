@@ -45,6 +45,9 @@ public class GlobalState : MonoBehaviour {
     [SerializeField]
     bool subdivisionsRandom;
 
+    [SerializeField]
+    bool bendTunnel;
+
     public static GlobalState I { get {return _instance;} }
 
     #region PublicProperties
@@ -171,7 +174,17 @@ public class GlobalState : MonoBehaviour {
             vedaEnabled = value;
         }
     }
-    
+
+    public bool BendTunnel {
+        get {
+            return bendTunnel;
+        }
+
+        set {
+            bendTunnel = value;
+        }
+    }
+
     #endregion
 
     private void OnEnable() {
