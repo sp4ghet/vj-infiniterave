@@ -48,6 +48,12 @@ public class GlobalState : MonoBehaviour {
     [SerializeField]
     bool bendTunnel;
 
+    [SerializeField]
+    bool waveStickEnabled;
+
+    [SerializeField]
+    float waveStickAmplifier;
+
     public static GlobalState I { get {return _instance;} }
 
     #region PublicProperties
@@ -182,6 +188,26 @@ public class GlobalState : MonoBehaviour {
 
         set {
             bendTunnel = value;
+        }
+    }
+
+    public bool WaveStickEnabled {
+        get {
+            return waveStickEnabled;
+        }
+
+        set {
+            waveStickEnabled = value;
+        }
+    }
+
+    public float WaveStickAmplifier {
+        get {
+            return waveStickAmplifier;
+        }
+
+        set {
+            waveStickAmplifier = value;
         }
     }
 

@@ -16,6 +16,7 @@ public class SceneController : MonoBehaviour {
     [SerializeField] GameObject water;
     [SerializeField] RadialMeshGenerator radialGenerator;
     [SerializeField] GameObject veda;
+    [SerializeField] WaveStick waveStick;
 
     PostProcessProfile profile;
     Isoline isoline = null;
@@ -119,6 +120,17 @@ public class SceneController : MonoBehaviour {
     public void ToggleVeda() {
         GlobalState.I.VedaEnabled = !GlobalState.I.VedaEnabled;
         veda.SetActive(GlobalState.I.VedaEnabled);
+    }
+
+    public void ToggleWaveStick() {
+        GlobalState.I.WaveStickEnabled = !GlobalState.I.WaveStickEnabled;
+        waveStick.gameObject.SetActive(GlobalState.I.WaveStickEnabled);
+    }
+
+    public void SetWaveStickAmplifier(float rate) {
+        rate = Mathf.Clamp01(rate);
+        const float maxAmp = 2000;
+        GlobalState.I.WaveStickAmplifier = maxAmp * rate;
     }
 
     // Use this for initialization

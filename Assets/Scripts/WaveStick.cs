@@ -13,7 +13,7 @@ public class WaveStick : MonoBehaviour {
     float speed = 5;
 
 
-    AudioSource audio;
+    AudioSource audioSource;
     Mesh mesh;
     float[] samples;
     Vector3[] vertices;
@@ -33,7 +33,7 @@ public class WaveStick : MonoBehaviour {
             float t = (float)i/vertices.Length;
             
             int index = Mathf.RoundToInt(Easing.EaseInExpo(0, samples.Length, 0.99f-t));
-            float sample = samples[index]*amplifier;
+            float sample = samples[index]*GlobalState.I.WaveStickAmplifier;
             Vector3 top = Vector3.left * sample/2;
             Vector3 bot = Vector3.right * sample/2;
 
@@ -155,17 +155,17 @@ public class WaveStick : MonoBehaviour {
         UpdateMesh(samples);
         GetComponent<MeshFilter>().mesh = mesh;
 
-        audio = GetComponent<AudioSource>();
-        audio.clip = Microphone.Start(null, true, 100, 44100);
-        audio.loop = true;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = Microphone.Start(null, true, 100, 44100);
+        audioSource.loop = true;
         while (!(Microphone.GetPosition(null) > 0)) { }
         Debug.Log("start playing... position is " + Microphone.GetPosition(null));
-        audio.Play();
+        audioSource.Play();
     }
 
 	// Update is called once per frame
 	void Update () {
-        audio.GetSpectrumData(samples, 0, FFTWindow.BlackmanHarris);
+        audioSource.GetSpectrumData(samples, 0, FFTWindow.BlackmanHarris);
         UpdateMesh(samples);
     }
 }
