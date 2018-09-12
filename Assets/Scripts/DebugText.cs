@@ -6,6 +6,8 @@ using TMPro;
 public class DebugText : MonoBehaviour {
 
     [SerializeField]
+    TextMeshProUGUI fpsText;
+    [SerializeField]
     TextMeshProUGUI bpmText;
     [SerializeField]
     TextMeshProUGUI colorText;
@@ -29,13 +31,24 @@ public class DebugText : MonoBehaviour {
     TextMeshProUGUI subdivisionsText;
     [SerializeField]
     TextMeshProUGUI subRandomText;
+    [SerializeField]
+    TextMeshProUGUI bend;
+    [SerializeField]
+    TextMeshProUGUI wavestick;
 
 
     // Use this for initialization
     void Start () {
-		
+        StartCoroutine(FpsCounter());
 	}
-	
+
+    IEnumerator FpsCounter() {
+        while (true) {
+            fpsText.text = $"fps: {Mathf.Round(1 / Time.deltaTime)}";
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
         bpmText.text = $"bpm: {GlobalState.I.Bpm}";
@@ -51,5 +64,7 @@ public class DebugText : MonoBehaviour {
         radialMeshText.text = $"Radial Mesh: {GlobalState.I.RadialMeshMode}";
         subdivisionsText.text = $"Subdivisions: {GlobalState.I.Subdivisions}";
         subRandomText.text = $"Sub Random: {GlobalState.I.SubdivisionsRandom}";
+        bend.text = $"Bend: {GlobalState.I.BendTunnel}";
+        wavestick.text = $"wavestick: {GlobalState.I.WaveStickEnabled}, {GlobalState.I.WaveStickAmplifier}";
 	}
 }

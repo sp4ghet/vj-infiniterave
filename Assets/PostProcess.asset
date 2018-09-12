@@ -1568,8 +1568,8 @@ MonoBehaviour:
   enabled:
     overrideState: 1
     value: 1
-  blend:
-    overrideState: 1
+  warp:
+    overrideState: 0
     value: 0
 --- !u!114 &114692599045402242
 MonoBehaviour:

@@ -64,6 +64,10 @@ public class SceneController : MonoBehaviour {
         GlobalState.I.TwistEnabled = !GlobalState.I.TwistEnabled;
     }
 
+    public void ToggleBend() {
+        GlobalState.I.BendTunnel = !GlobalState.I.BendTunnel;
+    }
+
     public void JumpCamera() {
         smoothFollow.JumpRandomly();
     }
@@ -144,5 +148,6 @@ public class SceneController : MonoBehaviour {
 
         ToggleSkyBox();ToggleSkyBox();
         veda.SetActive(GlobalState.I.VedaEnabled);
+        waveStick.gameObject.SetActive(GlobalState.I.WaveStickEnabled);
     }
 }

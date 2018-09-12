@@ -19,6 +19,7 @@ public class MidiInput : MonoBehaviour {
         ,toggleRandomSubdivisions = 38
         ,toggleVeda = 39
         ,toggleWaveStick = 40
+        ,toggleBend = 41
     }
 
     enum MidiKnobs : int {
@@ -63,6 +64,9 @@ public class MidiInput : MonoBehaviour {
             break;
         case MidiNotes.toggleWaveStick:
             sceneController.ToggleWaveStick();
+            break;
+        case MidiNotes.toggleBend:
+            sceneController.ToggleBend();
             break;
         }
     }

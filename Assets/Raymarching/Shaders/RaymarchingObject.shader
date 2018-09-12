@@ -19,21 +19,7 @@ CGINCLUDE
 
 #define PI 3.14159265358979
 
-float4 _Scale;
-float _Hit;
-
-float DistanceFunction(float3 pos)
-{
-	float t = _Hit;
-	float a = 6 * PI * t;
-	float s = pow(sin(a), 2.0);
-	float d1 = sphere(pos, _Scale/2.0);
-	float d2 = roundBox(
-		repeat(pos, 0.5),
-		0.1 - 0.1 * s,
-		0.1 / length(pos * 2.0));
-	return lerp(d1, d2, t);
-}
+#include "SDF.cginc"
 
 #include "Raymarching.cginc"
 
@@ -76,7 +62,7 @@ GBufferOut frag(VertObjectOutput i)
 
 	GBufferOut o;
 	o.diffuse = float4(1.0, 1.0, 1.0, 1.0);
-	o.specular = float4(0.5, 0.5, 0.5, 1.0);
+	o.specular = float4(0.35, 0.35, 0.35, 1.0);
 	o.emission = 0.0f;
 	o.normal = float4(normal, 1.0);
 	o.depth = depth;
@@ -93,11 +79,11 @@ GBufferOut frag(VertObjectOutput i)
 float4 frag_shadow(VertShadowOutput i) : SV_Target
 {
 	float3 rayDir = GetRayDirectionForShadow(i.screenPos);
-	float3 pos = i.worldPos;
+	float4 pos = i.worldPos.xyzz;
 	float distance = 0.0;
-	Raymarch(pos, distance, rayDir, 0.001, 10);
+	Raymarch(pos.xyz, distance, rayDir, 0.001, 10);
 
-	i.vec = pos - _LightPositionRange.xyz;
+	i.pos = pos - _LightPositionRange.xyzz;
 	SHADOW_CASTER_FRAGMENT(i);
 }
 

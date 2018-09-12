@@ -34,13 +34,13 @@ public class WaveStick : MonoBehaviour {
             
             int index = Mathf.RoundToInt(Easing.EaseInExpo(0, samples.Length, 0.99f-t));
             float sample = samples[index]*GlobalState.I.WaveStickAmplifier;
-            Vector3 top = Vector3.left * sample/2;
-            Vector3 bot = Vector3.right * sample/2;
+            Vector3 top = Vector3.up * sample/2;
+            Vector3 bot = Vector3.down * sample/2;
 
-            Vector3 a = new Vector3(0, -0.5f, 0.5f);
-            Vector3 b = new Vector3(0, -0.5f, -0.5f);
-            Vector3 c = new Vector3(0, 0.5f, -0.5f);
-            Vector3 d = new Vector3(0, 0.5f, 0.5f);
+            Vector3 a = new Vector3(-0.5f, 0, 0.5f);
+            Vector3 b = new Vector3(-0.5f, 0, -0.5f);
+            Vector3 c = new Vector3(0.5f, 0, -0.5f);
+            Vector3 d = new Vector3(0.5f, 0, 0.5f);
 
             vertices[i + 0] = Spiral(t, top + a);
             vertices[i + 1] = Spiral(t, top + b);

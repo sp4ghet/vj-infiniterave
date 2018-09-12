@@ -73,4 +73,22 @@ float3 twistZ(float3 p, float power)
     return mul(m, p);
 }
 
+float add( float d1, float d2 )
+{
+    return min(d1,d2);
+}
+
+	
+float subtraction( float d1, float d2 )
+{
+    return max(-d1,d2);
+}
+
+	
+float intersection( float d1, float d2 )
+{
+    return max(d1,d2);
+}
+
+
 #endif
