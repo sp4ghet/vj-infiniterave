@@ -13,7 +13,6 @@ public class SceneController : MonoBehaviour {
     [SerializeField] SmoothFollow smoothFollow;
     [SerializeField] PostProcessVolume ppVolume;
     [SerializeField] Camera sceneCamera;
-    [SerializeField] GameObject water;
     [SerializeField] RadialMeshGenerator radialGenerator;
     [SerializeField] GameObject veda;
     [SerializeField] WaveStick waveStick;
@@ -106,7 +105,6 @@ public class SceneController : MonoBehaviour {
             sceneCamera.clearFlags = CameraClearFlags.SolidColor;
             sceneCamera.backgroundColor = Color.black;
         }
-        water.SetActive(GlobalState.I.EnableSkybox);
     }
 
     public void SetBpm() {

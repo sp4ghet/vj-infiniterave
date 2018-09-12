@@ -53,7 +53,7 @@ Pass
         float distance = 0.0;
         float len = 0.0;
         float3 pos = camPos + _ProjectionParams.y * rayDir;
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 300; ++i) {
             distance = DistanceFunction(pos);
             len += distance;
             pos += rayDir * distance;
@@ -70,7 +70,7 @@ Pass
 
         GBufferOut o;
         o.diffuse  = float4(1.0, 1.0, 1.0, 1.0);
-        o.specular = float4(0.5, 0.5, 0.5, 1.0);
+        o.specular = 0;
         //o.emission = tex2D(_MainTex, float2(u, v)) * 3;
         o.emission = float4(0,0,0,0);
         o.depth    = depth;

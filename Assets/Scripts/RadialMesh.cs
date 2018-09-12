@@ -200,7 +200,7 @@ public class RadialMesh : MonoBehaviour {
         }
 
         if (GlobalState.I.BendTunnel) {
-            const float angle = Mathf.PI / 3f;
+            const float angle = Mathf.PI / 2f;
             const float phase = Mathf.PI / 2.4f;
             float y = Mathf.Sin(angle * duration / (lifeTime) + phase) * 50f - 50f;
             float z = Mathf.Cos(angle * duration / (lifeTime) + phase) * 50f - 10f;
