@@ -35,6 +35,10 @@ public class DebugText : MonoBehaviour {
     TextMeshProUGUI bend;
     [SerializeField]
     TextMeshProUGUI wavestick;
+    [SerializeField]
+    TextMeshProUGUI recolorText;
+    [SerializeField]
+    TextMeshProUGUI audioLevelText;
 
 
     // Use this for initialization
@@ -61,10 +65,12 @@ public class DebugText : MonoBehaviour {
         warpText.text = $"Warp: {GlobalState.I.Warp}";
         vedaText.text = $"Veda: {GlobalState.I.VedaEnabled}";
         twistText.text = $"Twist: {GlobalState.I.TwistEnabled}";
-        radialMeshText.text = $"Radial Mesh: {GlobalState.I.RadialMeshMode}";
+        radialMeshText.text = $"Radial Mesh: {GlobalState.I.RadialMeshMode} t{GlobalState.I.MeshThreshold}";
         subdivisionsText.text = $"Subdivisions: {GlobalState.I.Subdivisions}";
         subRandomText.text = $"Sub Random: {GlobalState.I.SubdivisionsRandom}";
         bend.text = $"Bend: {GlobalState.I.BendTunnel}";
         wavestick.text = $"wavestick: {GlobalState.I.WaveStickEnabled}, {GlobalState.I.WaveStickAmplifier}";
+        recolorText.text = $"recolor: {GlobalState.I.RecolorOpacity}";
+        audioLevelText.text = $"audio: L{AudioReactive.Instance.PeakLow:00.##}, B{AudioReactive.Instance.PeakBand:00.##}, {AudioReactive.Instance.PeakHigh:00.##}";
 	}
 }

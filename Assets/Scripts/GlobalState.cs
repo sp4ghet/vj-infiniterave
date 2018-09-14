@@ -10,7 +10,7 @@ public class GlobalState : MonoBehaviour {
     float _bpm;
 
     [SerializeField, ColorUsage(false, true)]
-    Color baseColor;
+    Vector4 baseColor;
 
     [SerializeField]
     bool isolineActive = true;
@@ -53,6 +53,18 @@ public class GlobalState : MonoBehaviour {
 
     [SerializeField]
     float waveStickAmplifier;
+
+    [SerializeField]
+    Gradient colors;
+
+    [SerializeField]
+    float recolorOpacity;
+
+    [SerializeField]
+    float meshThreshold;
+
+    [SerializeField]
+    bool particlesEnabled;
 
     public static GlobalState I { get {return _instance;} }
 
@@ -208,6 +220,46 @@ public class GlobalState : MonoBehaviour {
 
         set {
             waveStickAmplifier = value;
+        }
+    }
+
+    public float MeshThreshold {
+        get {
+            return meshThreshold;
+        }
+
+        set {
+            meshThreshold = value;
+        }
+    }
+
+    public float RecolorOpacity {
+        get {
+            return recolorOpacity;
+        }
+
+        set {
+            recolorOpacity = value;
+        }
+    }
+
+    public Gradient Colors {
+        get {
+            return colors;
+        }
+
+        set {
+            colors = value;
+        }
+    }
+    
+    public bool ParticlesEnabled {
+        get {
+            return particlesEnabled;
+        }
+
+        set {
+            particlesEnabled = value;
         }
     }
 

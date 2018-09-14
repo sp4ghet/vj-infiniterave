@@ -14,7 +14,7 @@ public class RadialMeshGenerator : MonoBehaviour {
 		float peak = AudioReactive.Instance.PeakLow;
         int subdivisions = GlobalState.I.Subdivisions;
 
-		if(peak > 30 
+		if(peak > GlobalState.I.MeshThreshold 
             && recentPop > 60f/(1f*GlobalState.I.Bpm) 
             && GlobalState.I.RadialMeshMode != RadialMesh.RadialState.off
         ) {

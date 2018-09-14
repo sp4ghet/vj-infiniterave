@@ -17,10 +17,12 @@ public class SceneController : MonoBehaviour {
     [SerializeField] RadialMeshGenerator radialGenerator;
     [SerializeField] GameObject veda;
     [SerializeField] WaveStick waveStick;
-
+    [SerializeField] GameObject particles;
+    
     PostProcessProfile profile;
     Isoline isoline = null;
     Warp warp = null;
+    Recolor recolor;
 
     float raymarchElapsed;
 
@@ -29,6 +31,7 @@ public class SceneController : MonoBehaviour {
     GameObject fishObj;
 
     float lastBpm = 0;
+    int emissionId;
 
     public void EaseRaymarchObject(float power) {
         StartCoroutine(easeVelocity(GlobalState.I.RayMarchLerp, power, 0.1f));
@@ -81,6 +84,18 @@ public class SceneController : MonoBehaviour {
         }
     }
 
+    internal void ToggleParticles() {
+        GlobalState.I.ParticlesEnabled = !GlobalState.I.ParticlesEnabled;
+        particles.SetActive(GlobalState.I.ParticlesEnabled);
+    }
+
+    public void NewColors() {
+        GlobalState.I.Colors = GradientGenerator.RandomGradient();
+        recolor.fillGradient.value = GlobalState.I.Colors;
+        GlobalState.I.BaseColor = (Vector4)UnityEngine.Random.ColorHSV(0,1, 1, 1, 1, 1, 1, 1) * 2.5f;
+        waveStick.GetComponent<Renderer>().material.SetColor(emissionId, GlobalState.I.BaseColor);
+    }
+
     public void SetSubdivisions(float knobValue) {
         uint maxSubs = 50;
         GlobalState.I.Subdivisions = (int)(maxSubs * knobValue) + 3;
@@ -107,6 +122,16 @@ public class SceneController : MonoBehaviour {
             sceneCamera.backgroundColor = Color.black;
         }
         water.SetActive(GlobalState.I.EnableSkybox);
+    }
+
+    public void SetMeshThreshold(float knobValue) {
+        float maxThresh = 50;
+        GlobalState.I.MeshThreshold = Mathf.Lerp(25, maxThresh, knobValue);
+    }
+
+    public void SetRecolorOpacity(float knobValue) {
+        GlobalState.I.RecolorOpacity = knobValue;
+        recolor.fillOpacity.value = GlobalState.I.RecolorOpacity;
     }
 
     public void SetBpm() {
@@ -145,9 +170,12 @@ public class SceneController : MonoBehaviour {
         profile.TryGetSettings(out isoline);
         isoline.active = GlobalState.I.IsolineActive;
         profile.TryGetSettings(out warp);
+        profile.TryGetSettings(out recolor);
 
         ToggleSkyBox();ToggleSkyBox();
         veda.SetActive(GlobalState.I.VedaEnabled);
         waveStick.gameObject.SetActive(GlobalState.I.WaveStickEnabled);
+        emissionId = Shader.PropertyToID("_EmissionColor");
+        particles.SetActive(GlobalState.I.ParticlesEnabled);
     }
 }

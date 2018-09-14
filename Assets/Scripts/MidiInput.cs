@@ -20,6 +20,8 @@ public class MidiInput : MonoBehaviour {
         ,toggleVeda = 39
         ,toggleWaveStick = 40
         ,toggleBend = 41
+        ,newColors = 42
+        ,toggleParticles = 43
     }
 
     enum MidiKnobs : int {
@@ -27,6 +29,8 @@ public class MidiInput : MonoBehaviour {
         ,warpKnob = 17
         ,subdivisionsKnob = 79
         ,waveStickKnob = 91
+        ,recolorKnob = 16
+        ,meshThreshKnob = 19
     }
 
     void NoteOn(MidiChannel channel, int note, float velocity) {
@@ -68,6 +72,12 @@ public class MidiInput : MonoBehaviour {
         case MidiNotes.toggleBend:
             sceneController.ToggleBend();
             break;
+        case MidiNotes.newColors:
+            sceneController.NewColors();
+            break;
+        case MidiNotes.toggleParticles:
+            sceneController.ToggleParticles();
+            break;
         }
     }
 
@@ -94,6 +104,12 @@ public class MidiInput : MonoBehaviour {
             break;
         case MidiKnobs.waveStickKnob:
             sceneController.SetWaveStickAmplifier(knobValue);
+            break;
+        case MidiKnobs.recolorKnob:
+            sceneController.SetRecolorOpacity(knobValue);
+            break;
+        case MidiKnobs.meshThreshKnob:
+            sceneController.SetMeshThreshold(knobValue);
             break;
         }
     }

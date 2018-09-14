@@ -1,0 +1,16 @@
+{
+	"IMPORTED": {
+		"image1": {
+			"PATH": "./1.jpg",
+		},
+		"video1": "./1.mp4"
+	},
+    "vertexMode": "LINES",
+    "pixelRatio": 0.5,
+    "audio": true,
+    "midi": true,
+    "webcam": true,
+    "keyboard": true,
+    "gamepad": true,
+		"glslify": true
+}
