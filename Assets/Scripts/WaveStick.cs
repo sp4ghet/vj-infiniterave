@@ -134,7 +134,7 @@ public class WaveStick : MonoBehaviour {
         float z = distance * t;
 
         if (GlobalState.I.BendTunnel) {
-            const float circle = (Mathf.PI / 3f);
+            const float circle = (Mathf.PI / 2f);
             const float rotate = (Mathf.PI / 2.4f);
             y += Mathf.Sin(circle*t + rotate) * 50f - 50f;
             z = Mathf.Cos(circle*t + rotate) * 50f - 5f; 

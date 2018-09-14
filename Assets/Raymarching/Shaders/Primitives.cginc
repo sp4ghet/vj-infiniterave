@@ -36,7 +36,7 @@ float cylinder(float3 pos, float2 r)
 	
 float sdCylinder( float3 p, float3 c )
 {
-  return length(p.xz-c.xy)-c.z;
+  return length(p.xy-c.xy)-c.z;
 }
 
 float sdEllipsoid( in float3 p, in float3 r )
