@@ -8,20 +8,22 @@ public class MidiInput : MonoBehaviour {
     [SerializeField] SceneController sceneController;
 
     enum MidiNotes : int {
-        rayMarchNote = 44
-        ,randomJump = 45
-        ,isolineToggle = 46
-        ,skyboxToggle = 47
-        ,bpmTap = 51
-        ,toggleCameraMove = 50
-        ,toggleRadialMesh = 36
-        ,toggleTwist = 37
-        ,toggleRandomSubdivisions = 38
-        ,toggleVeda = 39
-        ,toggleWaveStick = 40
-        ,toggleBend = 41
+        toggleRadialMesh = 36
+        , toggleTwist = 37
+        , toggleRandomSubdivisions = 38
+        , toggleVeda = 39
+        , toggleWaveStick = 40
+        , toggleBend = 41
         ,newColors = 42
         ,toggleParticles = 43
+        , rayMarchNote = 44
+        , randomJump = 45
+        , isolineToggle = 46
+        , skyboxToggle = 47
+        , toggleWorld = 48
+        , toggleObject = 49
+        , toggleCameraMove = 50
+        , bpmTap = 51
     }
 
     enum MidiKnobs : int {
@@ -72,11 +74,16 @@ public class MidiInput : MonoBehaviour {
         case MidiNotes.toggleBend:
             sceneController.ToggleBend();
             break;
-        case MidiNotes.newColors:
-            sceneController.NewColors();
+        case MidiNotes.toggleWorld:
+            sceneController.ToggleWorldMarch();
             break;
+        case MidiNotes.toggleObject:
+            sceneController.ToggleObjectMarch();
+        case MidiNotes.newColors:
+          sceneController.NewColors();
+        break;
         case MidiNotes.toggleParticles:
-            sceneController.ToggleParticles();
+          sceneController.ToggleParticles();
             break;
         }
     }
@@ -128,11 +135,11 @@ public class MidiInput : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        
+
     }
-    
+
     // Update is called once per frame
     void Update () {
-        
+
     }
 }

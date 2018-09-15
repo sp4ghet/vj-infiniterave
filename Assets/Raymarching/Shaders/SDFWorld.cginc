@@ -46,7 +46,7 @@ float DistanceFunction(float3 pos)
         box(rpt+float3(-height/4,0,0), float3(2,height*2,100))
     ); 
     float back = add(wall,
-      box(rpt+float3(0,0,100), float3(100,height, 5)) 
+      box(rpt+float3(0,0,40), float3(100,height, 5)) 
     );
     
     float3 bend = float3(

@@ -66,6 +66,12 @@ public class GlobalState : MonoBehaviour {
     [SerializeField]
     bool particlesEnabled;
 
+    [SerializeField]
+    bool worldSpaceEnabled;
+
+    [SerializeField]
+    bool objectSpaceEnabled;
+
     public static GlobalState I { get {return _instance;} }
 
     #region PublicProperties
@@ -252,7 +258,7 @@ public class GlobalState : MonoBehaviour {
             colors = value;
         }
     }
-    
+
     public bool ParticlesEnabled {
         get {
             return particlesEnabled;
@@ -260,6 +266,25 @@ public class GlobalState : MonoBehaviour {
 
         set {
             particlesEnabled = value;
+    }
+
+    public bool WorldSpaceEnabled {
+        get {
+            return worldSpaceEnabled;
+        }
+
+        set {
+            worldSpaceEnabled = value;
+        }
+    }
+
+    public bool ObjectSpaceEnabled {
+        get {
+            return objectSpaceEnabled;
+        }
+
+        set {
+            objectSpaceEnabled = value;
         }
     }
 
@@ -272,11 +297,11 @@ public class GlobalState : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        
+
     }
-    
+
     // Update is called once per frame
     void Update () {
-        
+
     }
 }

@@ -9,6 +9,7 @@ using System;
 public class SceneController : MonoBehaviour {
 
     [SerializeField] GameObject rayMarchingObject;
+    [SerializeField] GameObject worldSpaceMarch;
     [SerializeField] GPUBoids fish;
     [SerializeField] SmoothFollow smoothFollow;
     [SerializeField] PostProcessVolume ppVolume;
@@ -17,7 +18,7 @@ public class SceneController : MonoBehaviour {
     [SerializeField] GameObject veda;
     [SerializeField] WaveStick waveStick;
     [SerializeField] GameObject particles;
-    
+
     PostProcessProfile profile;
     Isoline isoline = null;
     Warp warp = null;
@@ -93,6 +94,16 @@ public class SceneController : MonoBehaviour {
         recolor.fillGradient.value = GlobalState.I.Colors;
         GlobalState.I.BaseColor = (Vector4)UnityEngine.Random.ColorHSV(0,1, 1, 1, 1, 1, 1, 1) * 2.5f;
         waveStick.GetComponent<Renderer>().material.SetColor(emissionId, GlobalState.I.BaseColor);
+
+    internal void ToggleObjectMarch() {
+        GlobalState.I.ObjectSpaceEnabled = !GlobalState.I.ObjectSpaceEnabled;
+        rayMarchingObject.SetActive(GlobalState.I.ObjectSpaceEnabled);
+    }
+
+    internal void ToggleWorldMarch() {
+        GlobalState.I.WorldSpaceEnabled = !GlobalState.I.WorldSpaceEnabled;
+        worldSpaceMarch.SetActive(GlobalState.I.WorldSpaceEnabled);
+
     }
 
     public void SetSubdivisions(float knobValue) {
@@ -173,7 +184,10 @@ public class SceneController : MonoBehaviour {
         ToggleSkyBox();ToggleSkyBox();
         veda.SetActive(GlobalState.I.VedaEnabled);
         waveStick.gameObject.SetActive(GlobalState.I.WaveStickEnabled);
+        
         emissionId = Shader.PropertyToID("_EmissionColor");
         particles.SetActive(GlobalState.I.ParticlesEnabled);
+        rayMarchingObject.SetActive(GlobalState.I.ObjectSpaceEnabled);
+        worldSpaceMarch.SetActive(GlobalState.I.WorldSpaceEnabled);
     }
 }

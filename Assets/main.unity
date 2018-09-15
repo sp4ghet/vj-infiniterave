@@ -622,6 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rayMarchingObject: {fileID: 517924442}
+  worldSpaceMarch: {fileID: 1671636408}
   fish: {fileID: 1210891887}
   smoothFollow: {fileID: 1003695167}
   ppVolume: {fileID: 2024204245}
@@ -656,6 +657,8 @@ MonoBehaviour:
   bendTunnel: 1
   waveStickEnabled: 0
   waveStickAmplifier: 2000
+  worldSpaceEnabled: 0
+  objectSpaceEnabled: 1
 --- !u!1 &201241467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,6 +1959,27 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 785833599}
   m_CullTransparentMesh: 0
+--- !u!21 &787543561
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Raymarching/Object
+  m_Shader: {fileID: 4800000, guid: c810734e89acb88428f27972b1196fc8, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _Hit: 0
+    m_Colors: []
 --- !u!1 &864168552
 GameObject:
   m_ObjectHideFlags: 0
@@ -2727,27 +2751,11 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1405597985}
   m_CullTransparentMesh: 0
---- !u!21 &1650137468
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Raymarching/Object
-  m_Shader: {fileID: 4800000, guid: c810734e89acb88428f27972b1196fc8, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats:
-    - _Hit: 0
-    m_Colors: []
+--- !u!1 &1671636408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1218521310421570, guid: a2a205de7e9d3a44eaa1efda7e45f697,
+    type: 2}
+  m_PrefabInternal: {fileID: 1779463095}
 --- !u!1 &1696811386
 GameObject:
   m_ObjectHideFlags: 0
@@ -3610,10 +3618,10 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1650137468}
+      objectReference: {fileID: 787543561}
     - target: {fileID: 1130164696319808, guid: 637cd5c3ac6a03a4687c612ba87c743a, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114434570300009468, guid: 637cd5c3ac6a03a4687c612ba87c743a,
         type: 2}
