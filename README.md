@@ -1,6 +1,6 @@
 # VJ System for InfiniteRave 09/15/2018
 
-Live visuals for InfiniteRave with [DJ Gaku]() at [InfiniteRave #1](https://1nfiniterave.peatix.com/)
+Live visuals for InfiniteRave with [DJ Gaku](https://soundcloud.com/gakunagashima) at [InfiniteRave #1](https://1nfiniterave.peatix.com/)
 
 ![](./imgs/vj1.gif)
 ![](./imgs/vj2.gif)
