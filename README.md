@@ -2,10 +2,10 @@
 
 Live visuals for InfiniteRave with [DJ Gaku](https://soundcloud.com/gakunagashima) at [InfiniteRave #1](https://1nfiniterave.peatix.com/)
 
-![](./imgs/vj1.gif)
-![](./imgs/vj2.gif)
-![](./imgs/vj3.gif)
-![](./imgs/vj4.gif)
+<img src="./imgs/vj1.gif" width="400px"/>
+<img src="./imgs/vj2.gif" width="400px"/>
+<img src="./imgs/vj3.gif" width="400px"/>
+<img src="./imgs/vj4.gif" width="400px"/>
 
 ## Requirements
 
