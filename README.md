@@ -9,6 +9,8 @@ Live visuals for InfiniteRave with [DJ Gaku](https://soundcloud.com/gakunagashim
 <img src="./imgs/vj4.gif" width="400px"/>
 </p>
 
+(Video by Natsuki Okuda and Rika Ito)
+
 ## Requirements
 
 - Unity 2018.2
