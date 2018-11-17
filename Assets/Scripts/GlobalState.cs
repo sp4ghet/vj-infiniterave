@@ -266,6 +266,7 @@ public class GlobalState : MonoBehaviour {
 
         set {
             particlesEnabled = value;
+        }
     }
 
     public bool WorldSpaceEnabled {

@@ -74,10 +74,10 @@ namespace Kino.PostProcessing
 
         public override void Render(PostProcessRenderContext context)
         {
-        #if UNITY_EDITOR
+            //#if UNITY_EDITOR
             // In editor, copy gradient color keys every frame.
             _gradientCache = settings.fillGradient.value.colorKeys;
-        #endif
+            //#endif
 
             var cmd = context.command;
             cmd.BeginSample("Recolor");

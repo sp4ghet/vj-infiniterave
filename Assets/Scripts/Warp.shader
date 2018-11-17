@@ -3,7 +3,6 @@
     HLSLINCLUDE
     float _Blend;
     #include "Assets/Scripts/warp.hlsl"
-
     ENDHLSL
 
     SubShader

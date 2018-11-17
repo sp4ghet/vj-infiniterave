@@ -10,7 +10,7 @@ float lengthN(vec3 v, float p)
   vec3 tmp = pow(abs(v), vec3(p));
   return pow(tmp.x+tmp.y+tmp.z, 1.0/p);
 }
-
+3
 vec3 replicate(vec3 p){
 	return mod(p, 8.0) - 4.;
 }

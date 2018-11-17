@@ -11,6 +11,7 @@ public class RaymarchingRenderer : MonoBehaviour
     [SerializeField] Material material = null;
     [SerializeField] CameraEvent pass = CameraEvent.BeforeGBuffer;
     private int bpmId;
+    private int colorId;
 
     Mesh GenerateQuad()
     {
@@ -40,6 +41,7 @@ public class RaymarchingRenderer : MonoBehaviour
     void OnEnable()
     {
         bpmId = Shader.PropertyToID("_Bpm");
+        colorId = Shader.PropertyToID("_Color");
         CleanUp();
     }
 
@@ -69,6 +71,7 @@ public class RaymarchingRenderer : MonoBehaviour
         var buffer = new CommandBuffer();
         buffer.name = "Raymarching";
         material.SetFloat(bpmId, GlobalState.I.Bpm);
+        material.SetColor(colorId, Color.white * (Color)((Vector4)GlobalState.I.BaseColor).normalized);
         buffer.DrawMesh(quad_, Matrix4x4.identity, material, 0, 0);
         camera.AddCommandBuffer(pass, buffer);
         cameras_.Add(camera, buffer);

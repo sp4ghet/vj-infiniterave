@@ -4,6 +4,7 @@
 Properties
 {
     _MainTex ("Main Texture", 2D) = "" {}
+    _Color ("Color", Color) = (0,0,0,0)
 }
 
 SubShader
@@ -42,6 +43,7 @@ Pass
     #include "Raymarching.cginc"
 
     sampler2D _MainTex;
+    float4 _Color;
 
     GBufferOut frag(VertOutput i)
     {
@@ -69,7 +71,7 @@ Pass
         float v = (1.0 - floor(fmod(pos.y, 2.0))) * 5;
 
         GBufferOut o;
-        o.diffuse  = float4(1.0, 1.0, 1.0, 1.0);
+        o.diffuse  = _Color;
         o.specular = 0;
         //o.emission = tex2D(_MainTex, float2(u, v)) * 3;
         o.emission = float4(0,0,0,0);

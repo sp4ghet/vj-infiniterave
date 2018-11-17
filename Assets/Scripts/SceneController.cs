@@ -91,16 +91,18 @@ public class SceneController : MonoBehaviour {
 
     public void NewColors() {
         GlobalState.I.Colors = GradientGenerator.RandomGradient();
-        recolor.fillGradient.value = GlobalState.I.Colors;
-        GlobalState.I.BaseColor = (Vector4)UnityEngine.Random.ColorHSV(0,1, 1, 1, 1, 1, 1, 1) * 2.5f;
+        recolor.fillGradient.Override(GlobalState.I.Colors);
+        Debug.Log(GlobalState.I.Colors.colorKeys[0].color);
+        GlobalState.I.BaseColor = (Vector4)UnityEngine.Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1) * 2.5f;
         waveStick.GetComponent<Renderer>().material.SetColor(emissionId, GlobalState.I.BaseColor);
+    }
 
-    internal void ToggleObjectMarch() {
+    public void ToggleObjectMarch() {
         GlobalState.I.ObjectSpaceEnabled = !GlobalState.I.ObjectSpaceEnabled;
         rayMarchingObject.SetActive(GlobalState.I.ObjectSpaceEnabled);
     }
 
-    internal void ToggleWorldMarch() {
+    public void ToggleWorldMarch() {
         GlobalState.I.WorldSpaceEnabled = !GlobalState.I.WorldSpaceEnabled;
         worldSpaceMarch.SetActive(GlobalState.I.WorldSpaceEnabled);
 
@@ -189,5 +191,15 @@ public class SceneController : MonoBehaviour {
         particles.SetActive(GlobalState.I.ParticlesEnabled);
         rayMarchingObject.SetActive(GlobalState.I.ObjectSpaceEnabled);
         worldSpaceMarch.SetActive(GlobalState.I.WorldSpaceEnabled);
+
+
+        Debug.Log("displays connected: " + Display.displays.Length);
+        // Display.displays[0] is the primary, default display and is always ON.
+        // Check if additional displays are available and activate each.
+        //if (Display.displays.Length > 1)
+        //    Display.displays[1].Activate();
+        if (Display.displays.Length > 2)
+            Display.displays[2].Activate();
+
     }
 }

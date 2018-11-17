@@ -79,12 +79,13 @@ public class MidiInput : MonoBehaviour {
             break;
         case MidiNotes.toggleObject:
             sceneController.ToggleObjectMarch();
+        break;
         case MidiNotes.newColors:
           sceneController.NewColors();
         break;
         case MidiNotes.toggleParticles:
           sceneController.ToggleParticles();
-            break;
+        break;
         }
     }
 
