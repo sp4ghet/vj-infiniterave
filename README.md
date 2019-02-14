@@ -19,7 +19,7 @@ Live visuals for InfiniteRave with [DJ Gaku](https://soundcloud.com/gakunagashim
 - Windows
 - OBS Studio with obs-ndi plugin
 - Atom + [Veda](https://github.com/fand/veda)
-
+- [Arturia Beatstep MIDI Controller](https://www.arturia.com/beatstep/overview) (You could use another MIDI pad, but you would need to reconfigure the MIDI ID's for it to work properly)
 
 ## Install
 
